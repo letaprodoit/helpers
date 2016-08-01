@@ -1,5 +1,5 @@
 {
-    "name": "thesoftwarepeople/helper",
+    "name": "thesoftwarepeople/helpers",
     "type": "library",
     "description": "Global functions used by various services",
     "keywords": ["slack","password","curl","colorize","arrays","Sharron Denice","The Software People"],
