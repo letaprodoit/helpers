@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Helper Class
+ * TSP_Helper Class
  *
  * @package		TheSoftwarePeople\Helpers
- * @filename	Helper.php
- * @version		1.0.1
+ * @filename	TSP_Helper.php
+ * @version		1.0.2
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -15,7 +15,7 @@
 
 namespace TheSoftwarePeople\Helpers;
 
-class Helper {
+class TSP_Helper {
 	
 	/**
 	 * Function to notify slack of incoming messages
