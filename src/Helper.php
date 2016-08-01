@@ -1,9 +1,11 @@
 <?php
+
 /**
  * Helper Class
  *
+ * @package		TheSoftwarePeople\Helpers
  * @filename	Helper.php
- * @version		1.0.0
+ * @version		1.0.1
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -11,12 +13,14 @@
  *
  */	
 
+namespace TheSoftwarePeople\Helpers;
+
 class Helper {
 	
 	/**
 	 * Function to notify slack of incoming messages
 	 *
-	 * @since 1.1.0
+	 * @since 1.0.0
 	 *
 	 * @param string $username  - The title of the message
 	 * @param string $text  - The text to display
@@ -46,7 +50,7 @@ class Helper {
 	/**
 	 * Function to display an html status
 	 *
-	 * @since 1.0.6
+	 * @since 1.0.0
 	 *
 	 * @param string $msg  - The message
 	 * @param string $color  - The color
@@ -62,7 +66,7 @@ class Helper {
     /**
      * Remove special characters from a string - Taken from CMS 1.0 code
      *
-     * @since 1.0.7
+     * @since 1.0.0
      *
      * @param string $str - The string to be converted
      *
@@ -107,7 +111,7 @@ class Helper {
     /**
      * Get a image's true path based on known file locations
      *
-     * @since 1.0.7
+     * @since 1.0.0
      *
      * @param string $file_name - The file name
      * @param string $base_path - The base search path
@@ -158,7 +162,7 @@ class Helper {
     /**
      * Function to generate salt key
      *
-     * @since 1.0.8
+     * @since 1.0.0
      *
      * @param int $length - The size of the salt
      *
@@ -184,7 +188,7 @@ class Helper {
     /**
      * Function to generate salt key
      *
-     * @since 1.0.8
+     * @since 1.0.0
      *
      * @param int $num - The number of the key
      *
@@ -504,7 +508,7 @@ class Helper {
 	/**
 	 * Function to determine if a name contains image extensions
 	 *
-	 * @since 1.0.5
+	 * @since 1.0.0
 	 *
 	 * @param string $code - The code to check
 	 *
@@ -537,7 +541,7 @@ class Helper {
 	/**
 	 * Function to read user input from command line
 	 *
-	 * @since 1.0.3
+	 * @since 1.0.0
 	 *
 	 * @param string $text - The information inputted by the user
 	 * @param string $color - A name of a color
@@ -584,7 +588,7 @@ class Helper {
 	/**
 	 * Function to fill an array with a string x times
 	 * 
-	 * @since 1.0.3
+	 * @since 1.0.0
 	 * 
 	 * @param string $string - The string to pad the array with
 	 * @param int $count - the number of times to fill the array
@@ -606,7 +610,7 @@ class Helper {
 	/**
 	 * Function to get the last value of an array
 	 * 
-	 * @since 1.0.3
+	 * @since 1.0.0
 	 * 
 	 * @param array $array - The array
 	 * 
@@ -622,7 +626,7 @@ class Helper {
 	 *
 	 * @param none
 	 *
-	 * @since 1.1.7
+	 * @since 1.0.0
 	 *
 	 * @return string - Returns the generated password
 	 */
@@ -643,7 +647,7 @@ class Helper {
 	/**
 	 * Function to parse a URL to make it valid for manipulation
 	 *
-	 * @since 1.1.8
+	 * @since 1.0.0
 	 *
 	 * @param string $url (Reference) - The URL to be parsed
 	 *
@@ -665,7 +669,7 @@ class Helper {
 	 *
 	 * @param string $var - The variable to test
 	 *
-	 * @since 1.0.2
+	 * @since 1.0.0
 	 *
 	 * @return boolean - Returns the boolean equivalent
 	 */
@@ -693,7 +697,7 @@ class Helper {
 	/**
 	 * Function to get the current domain being accessed
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 *
 	 * @return string - the current domain name
 	 */
