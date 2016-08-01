@@ -1,0 +1,19 @@
+{
+    "name": "thesoftwarepeople/helper",
+    "type": "library",
+    "description": "Global functions used by various services",
+    "keywords": ["slack","password","curl","colorize","arrays","Sharron Denice","The Software People"],
+    "homepage": "https://github.com/thesoftwarepeople",
+    "license": "APACHE",
+    "authors": [
+        {
+            "name": "Sharron Denice",
+            "email": "sharron@thesoftwarepeople.com",
+            "homepage": "http://www.thesoftwarepeople.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+ }
