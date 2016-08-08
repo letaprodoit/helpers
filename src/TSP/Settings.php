@@ -3,7 +3,7 @@
  * Helper Classes
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.Settings.php
+ * @filename	Settings.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,14 +11,19 @@
  * @brief		Settings used by the TheSoftwarePeople\Helper package
  *
  */	
-
 class TSP_Settings
 {
-	public static $live            = false;
-	public static $debug           = true;
-	public static $notify_admin    = true;
-	
-    public static $cookie_prefix_default = "tsp-";
+	public static $live            	= false;
+	public static $live_payment 	= false;
+	public static $debug           	= true;
+
+	public static $admin_email 			= "webmaster@thesoftwarepeople.com";		
+	public static $admin_name 			= "The Software People";			
+	public static $admin_from_email 	= "no-reply@thesoftwarepeople.com";		
+	public static $admin_from_name 		= "The Software People";		
+	public static $admin_notify 		= true;
+
+    public static $cookie_prefix 		 = "tsp-";
 	public static $cookie_prefix_encoded = "Encoded: ";
 
 	public static $date_format_default     = "m/d/Y";
@@ -31,7 +36,6 @@ class TSP_Settings
 	public static $smtp_user = null;
 	public static $smtp_pass = null;
 
-    public static $dir_sep     = "/";
     public static $dir_upload  = "/uploads";
 	public static $dir_cache   = "/cache";
 	public static $file_debug  = "/log-debug.log";
@@ -44,9 +48,16 @@ class TSP_Settings
 
 	public static $password_salt 	= "aq7#^NMr";
 
-    public static $databases   = null;
-    public static $users       = null;
-    public static $apis        = null;
-    public static $checksums   = null;
-    public static $contacts    = null;
+	public static $domain 		= null;
+	public static $domain_uri 	= null;
+
+    /* Arrays */
+	public static $checksums   	= null; 
+	public static $misc   		= null; 
+
+	/*  Array of Objects */
+    public static $databases   	= null; // TSP_Database
+    public static $users       	= null; // TSP_UserLogin
+    public static $apis        	= null; // TSP_APICredentials
+    public static $contacts    	= null; // TSP_UserContact
 }

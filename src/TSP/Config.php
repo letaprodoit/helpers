@@ -3,7 +3,7 @@
  * Helper Classes
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.Config.php
+ * @filename	Config.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,8 +11,6 @@
  * @brief		Global functions used by various services
  *
  */	
-
-
 class TSP_Config
 {
     /**
@@ -42,23 +40,26 @@ class TSP_Config
      */
     public static function get($find)
     {
-        list($null, $var, $key) = preg_split("/\./", $find, 3);
+ 		$levels = substr_count($find, '.') + 1;
+ 		$config_arrkey = null;
 
-        $arr = TSP_Settings::$$var;
+        // There will always be at least 2 levels
+        list($null, $config_key) = preg_split("/\./", $find, $levels);
 
-        if ($var == 'debug')
+        // There will never be more than three levels
+        if ($levels == 3)
         {
-            return TSP_Settings::$debug;
+            list($null, $null, $config_arrkey) = preg_split("/\./", $find, $levels);
         }
-        else if (!is_array($arr) || (is_array($arr) && empty($key)))
+
+        if (!is_array(TSP_Settings::${$config_key}) || (is_array(TSP_Settings::${$config_key}) && empty($config_arrkey)))
         {
-            return $arr;
+            return TSP_Settings::${$config_key};
         }
-        else
+        else if (is_array(TSP_Settings::${$config_key}) && !empty($config_arrkey))
         {
-            if (isset($arr[$key]))
-                return $arr[$key];
-        }
+            return TSP_Settings::${$config_key}[$config_arrkey];
+        }    
         
         return "";
     }

@@ -3,7 +3,7 @@
  * Helper Classes
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.Log.php
+ * @filename	Log.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,8 +11,6 @@
  * @brief		Global functions used by various services
  *
  */	
-
-
 class TSP_Log
 {
     public static function info($msg)

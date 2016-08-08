@@ -3,7 +3,7 @@
  * Helper Classes
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.Mail.php
+ * @filename	Mail.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,16 +11,21 @@
  * @brief		Global functions used by various services
  *
  */	
-
 class TSP_Mail
 {
-    private $from = "no-reply@thesoftwarepeople.com";
-    private $from_name = "The Software People";
-
-    function __contruct()
-    {
-    }
-    
+    /**
+     * Funciton to send mail using PHPMailer
+     *
+     * @since 1.0.0
+     *
+     * @param string $to - the email address
+     * @param string $subject - the email subject
+     * @param string $body - the email body
+     * @param optional string $attachment - the email attachment
+     *
+     * @return none
+     *
+     */
     public function send($to, $subject, $body, $attachment = null)
     {
         try
@@ -30,21 +35,20 @@ class TSP_Mail
 	        if (TSP_Config::get('app.debug'))
 	            TSP_Log::info("Preparing mail...");
 
-	        $mail->setFrom($this->from, $this->from_name);
+	        $mail->setFrom(TSP_Settings::$admin_from_email, TSP_Settings::$admin_from_name);
 	        
-	        if (TSP_Settings::$notify_admin)
+	        if (TSP_Settings::$admin_notify)
 	        {
                 if (TSP_Config::get('app.debug'))
                     TSP_Log::info("Adding admin to BCC...");
 
-	        	$admin = TSP_Config::get('app.global_contacts.sbsadmin');
-	        	$mail->AddBCC($admin->email, "{$admin->fname} {$admin->lname}");
+	        	$mail->AddBCC(TSP_Settings::$admin_email, TSP_Settings::$admin_email);
 	        }
 	        
 	        $plain_text = strip_tags($body, "<br>");
 	        $plain_text = preg_replace("/\<br\>/", "\n", $plain_text);
 	        	
-	        $mail->addReplyTo($this->from, $this->from_name);
+	        $mail->addReplyTo(TSP_Settings::$admin_from_email, TSP_Settings::$admin_from_name);
 	        $mail->addAddress($to);
 	        $mail->Subject = utf8_decode($subject);
 	        $mail->msgHTML($body);

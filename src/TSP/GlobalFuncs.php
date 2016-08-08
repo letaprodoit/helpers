@@ -3,7 +3,7 @@
  * Helper Classes
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.GlobalFuncs.php
+ * @filename	GlobalFuncs.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,7 +11,6 @@
  * @brief		Global functions used by various services
  *
  */	
-
 class TSP_GlobalFuncs 
 {	
 	/**
@@ -735,7 +734,7 @@ class TSP_GlobalFuncs
             {
                 mt_srand((double)microtime() * 1000000);
                 $num = mt_rand(1,72);
-                $salt .= TSP_Helper::assignRandValue($num);
+                $salt .= TSP_GlobalFuncs::assignRandValue($num);
             }
         }
         return $salt;

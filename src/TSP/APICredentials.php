@@ -1,13 +1,15 @@
 <?php
 /**
  * The APICredentials class
+ *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.APICredentials.php
+ * @filename	APICredentials.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Class to store API credential objects
+ *
  */
 class TSP_APICredentials
 {

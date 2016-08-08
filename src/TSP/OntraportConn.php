@@ -3,7 +3,7 @@
  * OntraportConn
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	class.OntraportConn.php
+ * @filename	OntraportConn.php
  * @version		1.0.5
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -11,7 +11,6 @@
  * @brief		Ontraport API functionality
  *
  */	
-
 class TSP_OntraportConn 
 {
 	public $id = null;
@@ -134,7 +133,7 @@ STRING;
         if (TSP_Config::get('app.debug'))
             TSP_Log::info("Sending post args for contact info to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+        $response = TSP_GlobalFuncs::getCurlResults($this->URL, null, $postargs, true);
     
         return $response;
     }
@@ -394,7 +393,7 @@ STRING;
             if (TSP_Config::get('app.debug'))
                 TSP_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
     
-            $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+            $response = TSP_GlobalFuncs::getCurlResults($this->URL, null, $postargs, true);
         }
         else
         {
@@ -442,7 +441,7 @@ STRING;
         if (TSP_Config::get('app.debug'))
             TSP_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);        
+        $response = TSP_GlobalFuncs::getCurlResults($this->URL, null, $postargs, true);        
     
         $xml = simplexml_load_string($response);
 
@@ -555,7 +554,7 @@ STRING;
             if (TSP_Config::get('app.debug'))
                 TSP_Log::info("Sending post args to remove tags in OAP: " . @json_encode($postargs));
     
-            $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+            $response = TSP_GlobalFuncs::getCurlResults($this->URL, null, $postargs, true);
         }
         else
         {
@@ -612,7 +611,7 @@ STRING;
         if (TSP_Config::get('app.debug'))
             TSP_Log::info("Sending post args to update info to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);        
+        $response = TSP_GlobalFuncs::getCurlResults($this->URL, null, $postargs, true);        
     
         return $response;
     }
