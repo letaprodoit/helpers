@@ -3,7 +3,7 @@
  * The Database class
  *
  * @package		TheSoftwarePeople.Helpers
- * @filename	DatabaseConn.php
+ * @filename	Database.php
  * @version		1.0.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
@@ -61,7 +61,7 @@ class TSP_Database
         {
     		if (array_key_exists($db_key, TSP_Config::get('app.databases')))
     		{
-    			$db_conn = TSP_Config::get('app.databases.' . $db_key); // included from TSP_Easy_Dev.config.php
+    			$db_conn = TSP_Config::get('app.databases.' . $db_key);
     			$this->Connect($db_conn);
     		}
         }
@@ -88,11 +88,11 @@ class TSP_Database
     			$this->pass = 	$db_conn->pass;
     			$this->port =	$db_conn->port;
     			$this->type = 	$db_conn->type;
-    	
+
     			switch ($this->type)
     			{
-    				case TSP_MYSQL:
-    				case TSP_MYSQLI:
+    				case TSP_Settings::$database_mysql:
+    				case TSP_Settings::$database_mysqli:
     					self::$connection = mysqli_connect($this->host, $this->user, $this->pass);
     					
     					if (self::$connection)
@@ -105,7 +105,7 @@ class TSP_Database
     						}
     					}
     					break;
-    				case TSP_MONGO:
+    				case TSP_Settings::$database_mongo:
     					self::$connection = new MongoClient("mongodb://{$this->user}:{$this->pass}@{$this->host}:{$this->port}");
     					
     					if (self::$connection)
@@ -118,7 +118,7 @@ class TSP_Database
     						}
     					}
     					break;
-        			case TSP_MSSQL:
+        			case TSP_Settings::$database_mssql:
     					self::$connection = mssql_connect($this->host, $this->user, $this->pass);
     					
     					if (self::$connection)
@@ -138,11 +138,11 @@ class TSP_Database
     		
             if (!$connected)
     		{
-    			throw new Exception("Error Occurred: Could not connect to the database. Please edit TSP_Easy_Dev.config.php with your database configuration.");
+    			throw new Exception("Error Occurred: Could not connect to the database. Please edit TSP_Settings with your database configuration.");
     		}
     		else if (!$db_found)
     		{
-    			throw new Exception("Error Occurred: Could not find the specified database ".$this->name.". Please edit TSP_Easy_Dev.config.php.");
+    			throw new Exception("Error Occurred: Could not find the specified database ".$this->name.". Please edit TSP_Settings.");
     		}
     	}
         catch (Exception $e) 
@@ -163,11 +163,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-     			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+     			case TSP_Settings::$database_mysqli:
     				$row = mysqli_fetch_array($result);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$row = mssql_fetch_array($result);
     				break;
     			default:
@@ -199,11 +199,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$row = mysqli_fetch_assoc($result);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$row = mssql_fetch_assoc($result);
     				break;
     			default:
@@ -234,11 +234,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-     			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+     			case TSP_Settings::$database_mysqli:
     				$row = mysqli_fetch_object($result);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$row = mssql_fetch_object($result);
     				break;
     			default:
@@ -270,12 +270,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				$id = $this->LastInsertID();
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				$id = $this->LastInsertID();
     				break;
@@ -304,10 +304,10 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-     			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+     			case TSP_Settings::$database_mysqli:
                     break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$sql = preg_replace("/\`(.*?)\`/", "[$1]", $sql);
     				break;
     			default:
@@ -336,13 +336,13 @@ class TSP_Database
     		// do NOT use mysql_insert_id here it does not handle BIGINT
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, 'SELECT LAST_INSERT_ID();');
     				$row = mysqli_fetch_array($result);
     				$id = $row[0];
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$result = mssql_query('select @@IDENTITY;', self::$connection);
     				$row = mssql_fetch_array($result);
     				$id = $row[0];
@@ -371,11 +371,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$read = mysqli_fetch_assoc($cursor);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$read = mssql_fetch_assoc($cursor);
     				break;
     			default:
@@ -403,11 +403,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-     			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+     			case TSP_Settings::$database_mysqli:
     				$cursor = mysqli_query(self::$connection, $query);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$cursor = mssql_query($query, self::$connection);
     				break;
     			default:
@@ -434,11 +434,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				break;
     			default:
@@ -470,12 +470,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				mysqli_query(self::$connection, $query);
     				$result = mysqli_affected_rows(self::$connection);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				mssql_query($query, self::$connection);
     				$result = mssql_rows_affected(self::$connection);
     				break;
@@ -509,12 +509,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_MYSQL:
-    			case TSP_MYSQLI:
+    			case TSP_Settings::$database_mysql:
+    			case TSP_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				$rows = mysqli_num_rows($result);
     				break;
-    			case TSP_MSSQL:
+    			case TSP_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				$rows = mssql_num_rows($result);
     				break;

@@ -38,8 +38,9 @@ class TSP_Settings
 
     public static $dir_upload  = "/uploads";
 	public static $dir_cache   = "/cache";
-	public static $file_debug  = "/log-debug.log";
-    public static $file_error  = "/log-error.log";
+	public static $file_debug  = "./log-debug.log";
+    public static $file_error  = "./log-error.log";
+    public static $file_mail   = "./log-mail.log";
 
 	public static $database_mysql 	= "mysql";
 	public static $database_mysqli 	= "mysqli";
