@@ -44,9 +44,9 @@ class TSP_Settings
 
 	public static $password_salt 	= "aq7#^NMr";
 
-    public $databases   = null;
-    public $users       = null;
-    public $apis        = null;
-    public $checksums   = null;
-    public $contacts    = null;
+    public static $databases   = null;
+    public static $users       = null;
+    public static $apis        = null;
+    public static $checksums   = null;
+    public static $contacts    = null;
 }
