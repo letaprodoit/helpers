@@ -9,3 +9,6 @@ Generic Helper Library for The Software People
 [![Daily Downloads](https://poser.pugx.org/thesoftwarepeople/helpers/d/daily)](https://packagist.org/packages/thesoftwarepeople/helpers)
 
 Some useful functions & helper classes
+
+Initializing Settings
+=======

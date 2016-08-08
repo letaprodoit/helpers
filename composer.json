@@ -2,7 +2,7 @@
     "name": "thesoftwarepeople/helpers",
     "type": "library",
     "description": "Global functions used by various services",
-    "keywords": ["slack","password","curl","colorize","arrays","Sharron Denice","The Software People"],
+    "keywords": ["slack","password","ontraport","phpmailer","api","database","mysql","mssql","mongo","log","mail","curl","colorize","arrays","Sharron Denice","The Software People"],
     "homepage": "https://github.com/thesoftwarepeople",
     "license": "APACHE",
     "authors": [
@@ -14,13 +14,14 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "phpmailer/phpmailer": "v5.2.16"
+    },
+    "require-dev": {
+        "apigen/apigen": "dev-master"
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ],
-        "psr-4": {
+        "psr-0": {
             "TheSoftwarePeople\\Helpers\\": "src"
         }
     }
