@@ -22,7 +22,17 @@
     },
     "autoload": {
         "psr-0": {
-            "TheSoftwarePeople\\Helpers\\": "src"
+            "TSP_APICredentials": "src",
+            "TSP_Config": "src",
+            "TSP_Database": "src",
+            "TSP_DatabaseConn": "src",
+            "TSP_GlobalFuncs": "src",
+            "TSP_Log": "src",
+            "TSP_Mail": "src",
+            "TSP_OntraportConn": "src",
+            "TSP_Settings": "src",
+            "TSP_UserContact": "src",
+            "TSP_UserLogin": "src"
         }
     }
 }
