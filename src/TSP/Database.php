@@ -93,7 +93,7 @@ class TSP_Database
     			{
     				case TSP_Settings::$database_mysql:
     				case TSP_Settings::$database_mysqli:
-    					self::$connection = mysqli_connect($this->host, $this->user, $this->pass);
+                        self::$connection = mysqli_connect($this->host, $this->user, $this->pass, "", $this->port);
     					
     					if (self::$connection)
     					{
