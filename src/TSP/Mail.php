@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Mail.php
- * @version		1.0.1
+ * @version		1.0.2
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -59,8 +59,8 @@ class TSP_Mail
             // Additional settings…
             $this->mail->isSMTP();
     
-        	if (TSP_Config::get('app.debug'))
-        	    $this->mail->SMTPDebug  = 2;
+        	//if (TSP_Config::get('app.debug'))
+        	//    $this->mail->SMTPDebug  = 2;
     
             $this->mail->Host = TSP_Settings::$smtp_host;
             $this->mail->SMTPAuth = true; // Force it to use Username and Password to authenticate
