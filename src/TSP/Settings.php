@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Settings.php
- * @version		1.0.0
+ * @version		1.0.1
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -31,10 +31,12 @@ class TSP_Settings
 	public static $date_format_pretty      = "F d, Y";
 	public static $date_format_simple      = "F Y";
 
-	public static $smtp_host = "smtp.mandrillapp.com";
-	public static $smtp_port = 587;
-	public static $smtp_user = null;
-	public static $smtp_pass = null;
+	public static $smtp_live    = false;
+    public static $smtp_host    = "smtp.mandrillapp.com";
+	public static $smtp_port    = 587;
+	public static $smtp_user    = null;
+	public static $smtp_pass    = null;
+	public static $smtp_secure  = 'TLS'; // Choose SSL or TLS
 
     public static $dir_upload  = "/uploads";
 	public static $dir_cache   = "/cache";
