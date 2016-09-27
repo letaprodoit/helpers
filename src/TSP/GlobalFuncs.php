@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	GlobalFuncs.php
- * @version		1.0.0
+ * @version		1.0.1
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -720,11 +720,12 @@ class TSP_GlobalFuncs
      * @since 1.0.0
      *
      * @param int $length - The size of the salt
+     * @param bool $special_chars - Include special chars (true or false)
      *
      * @return string $salt - encrypted Data
      *
      */
-    public static function genKey($length = 4)
+    public static function genKey($length = 4, $special_chars = true)
     {
         $salt = "";
 
@@ -734,7 +735,7 @@ class TSP_GlobalFuncs
             {
                 mt_srand((double)microtime() * 1000000);
                 $num = mt_rand(1,72);
-                $salt .= TSP_GlobalFuncs::assignRandValue($num);
+                $salt .= TSP_GlobalFuncs::assignRandValue($num, $special_chars);
             }
         }
         return $salt;
@@ -790,21 +791,24 @@ class TSP_GlobalFuncs
 	 * @param string $url  - The URL to call
 	 * @param string $host Optional - The host that will server the results
 	 * @param string $params Optional - The arguments passed to the URL
-	 * @param string $post Optional - Is this a post request
+	 * @param bool $post Optional - Is this a post request
+	 * @param array $headers Optional - headers array
+	 * @param bool $debug Optional - Debug messages
 	 *
 	 * @return string $results - The processed contents
 	 */
-	public static function getCurlResults($url, $host = "", $params = array(), $post = false)
+	public static function getCurlResults($url, $host = "", $params = array(), $post = false, $headers = array(), $debug = false)
 	{
         $ch = curl_init();
-	
+
 		// if there are GET params available append them to the URL
-		if (!$post && !empty($params))
+		if (!$post && !empty($params) && is_array($params))
 		{
 			// Update URL to container Query String of Paramaters */
 			$url .= '?' . http_build_query($params);
 		}//endif
 
+		curl_setopt($ch, CURLOPT_VERBOSE, $debug);
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
@@ -812,18 +816,27 @@ class TSP_GlobalFuncs
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/cacert.pem");
+		//curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . "/cacert.pem");
 	
 		if ($post)
 		{
 			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+
+			if (is_array($params))
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+			else
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $params);				
 		}//endif
 	
 		if (!empty($host))
 		{
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Host: $host"));
+			$headers[] = "Host: $host";
 		}//endif
+
+		if (!empty($headers))
+		{
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		}
 	
 		$results = curl_exec($ch);
 
