@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	GlobalFuncs.php
- * @version		1.0.4
+ * @version		1.0.5
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -26,11 +26,27 @@ class TSP_GlobalFuncs
 	 */
 	public static function array_safeGetValue( $array, $key, $default = '' )
 	{
+		return arrGetVal($array, $key, $default);
+	}
+    
+	/**
+	 * Function to return safe value from an array (shorter name)
+	 *
+	 * @since 1.0.5
+	 *
+	 * @param string $array  - The array to query
+	 * @param string $key  - The key to look for
+	 * @param string $default  - The default value to return
+	 *
+	 * @return string - $array[$key] 
+	 */
+	public static function arrGetVal( $array, $key, $default = '' )
+	{
 		if (!isset( $array, $array[$key] ))
 			return $default;
 		return $array[$key];
 	}
-    
+
     /**
      * Function to generate salt key
      *
