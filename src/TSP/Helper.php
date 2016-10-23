@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Helper.php
- * @version		1.0.7
+ * @version		1.0.8
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -752,7 +752,7 @@ class TSP_Helper
             {
                 mt_srand((double)microtime() * 1000000);
                 $num = mt_rand(1,72);
-                $salt .= TSP_GlobalFuncs::assignRandValue($num, $special_chars);
+                $salt .= self::assignRandValue($num, $special_chars);
             }
         }
         return $salt;
