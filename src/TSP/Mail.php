@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Mail.php
- * @version		1.0.2
+ * @version		1.0.3
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -111,7 +111,7 @@ class TSP_Mail
 	        if (TSP_Config::get('app.debug'))
 	            TSP_Log::info("Preparing mail...");
 
-	        $this->mail->setFrom(TSP_Settings::$admin_from_email, TSP_Settings::$admin_from_name);
+	        $this->mail->setFrom($this->mail->From, $this->mail->FromName);
 	        
 	        if (TSP_Settings::$admin_notify)
 	        {
@@ -124,7 +124,7 @@ class TSP_Mail
 	        $plain_text = strip_tags($body, "<br>");
 	        $plain_text = preg_replace("/\<br\>/", "\n", $plain_text);
 	        	
-	        $this->mail->addReplyTo(TSP_Settings::$admin_from_email, TSP_Settings::$admin_from_name);
+	        $this->mail->addReplyTo($this->mail->From, $this->mail->FromName);
 	        $this->mail->addAddress($to);
 	        $this->mail->Subject = utf8_decode($subject);
 	        $this->mail->msgHTML($body);
