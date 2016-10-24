@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Helper.php
- * @version		1.0.9
+ * @version		1.1.0
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -1109,7 +1109,8 @@ class TSP_Helper
     {
         foreach ($params as $key => $value)
         {
-            $content = preg_replace("/(\{\{|\[\[)$key(\}\}|\]\])/", $value, $content);
+            if (!is_array($key) && !is_array($value))
+                $content = preg_replace("/(\{\{|\[\[)$key(\}\}|\]\])/", $value, $content);
         }
 
         return $content;
