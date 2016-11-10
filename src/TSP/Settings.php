@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Settings.php
- * @version		1.0.2
+ * @version		1.0.3
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -27,7 +27,7 @@ class TSP_Settings
 	public static $cookie_prefix_encoded = "Encoded: ";
 
 	public static $date_format_default     = "m/d/Y";
-	public static $date_format_database    = "Y-m-d h:i:s";
+	public static $date_format_database    = "Y-m-d H:i:s";
 	public static $date_format_pretty      = "F d, Y";
 	public static $date_format_simple      = "F Y";
 
