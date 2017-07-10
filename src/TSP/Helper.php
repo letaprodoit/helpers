@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Helper.php
- * @version		1.1.0
+ * @version		1.1.1
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -42,9 +42,11 @@ class TSP_Helper
 	 */
 	public static function arrGetVal( $array, $key, $default = '' )
 	{
-		if (!isset( $array, $array[$key] ))
-			return $default;
-		return $array[$key];
+        if (empty($key))
+            return $array;
+        else if (!isset( $array, $array[$key] ) || empty($array[$key]) || $array[$key] == 'null')
+            return $default;
+        return $array[$key];
 	}
 
     /**
@@ -648,6 +650,7 @@ class TSP_Helper
 	 * Function to decrypt data
 	 *
 	 * @since 1.0.0
+     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher.
 	 *
 	 * @param string $salt  - The decryption salt
 	 * @param string $encrypted  - The data to decrypt
@@ -661,12 +664,12 @@ class TSP_Helper
 
         if(empty($iv))
         {
-            return false; 
+            return false;
         }
 
-        if (!defined('MCRYPT_MODE_CBC')) 
+        if (!defined('MCRYPT_MODE_CBC'))
         {
-            return false; 
+            return false;
         }
 
 		return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, hash('sha256', $salt, true), substr($data, mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)), MCRYPT_MODE_CBC, $iv), "\0");
@@ -676,6 +679,7 @@ class TSP_Helper
 	 * Function to encrypt data
 	 *
 	 * @since 1.0.0
+     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher.
 	 *
 	 * @param string $salt  - The encryption salt
 	 * @param string $data  - The data to encrypt
@@ -687,7 +691,41 @@ class TSP_Helper
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
 		return base64_encode($iv . mcrypt_encrypt(MCRYPT_RIJNDAEL_256, hash('sha256', $salt, true), $data, MCRYPT_MODE_CBC, $iv));
 	}
-	
+
+    /**
+     * Function to decrypt data
+     *
+     * @since 1.1.1
+     *
+     * @param string $salt  - The decryption salt
+     * @param string $encrypted  - The data to decrypt
+     * @param string $iv  - 16-byte string (highly recommended)
+     *
+     * @return string - encrypted data
+     */
+    public static function openDecrypt($salt, $encrypted, $iv)
+    {
+        $decrypted = openssl_decrypt($encrypted, 'AES-128-CBC', $salt, true, $iv);
+
+        return base64_decode($decrypted);
+    }
+
+    /**
+     * Function to encrypt data
+     *
+     * @since 1.1.1
+     *
+     * @param string $salt  - The encryption salt
+     * @param string $data  - The data to encrypt
+     * @param string $iv  - 16-byte string (highly recommended)
+     *
+     * @return string - encrypted data
+     */
+    public static function openEncrypt($salt, $data, $iv)
+    {
+        return openssl_encrypt(base64_encode($data), 'AES-128-CBC', $salt, true, $iv);
+    }
+
 	/**
 	 * Function to fill an array with a string x times
 	 * 

@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Database.php
- * @version		1.0.0
+ * @version		1.0.1
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -55,14 +55,14 @@ class TSP_Database
 	/**
 	 * Constructor
 	 */
-	public function __construct($db_key)
+	public function __construct($db_key, $select_db = true)
 	{		
         try 
         {
     		if (array_key_exists($db_key, TSP_Config::get('app.databases')))
     		{
     			$db_conn = TSP_Config::get('app.databases.' . $db_key);
-    			$this->Connect($db_conn);
+    			$this->Connect($db_conn, $select_db);
     		}
         }
         catch (Exception $e) 
@@ -74,7 +74,7 @@ class TSP_Database
 	/**
 	 * @return resource
 	 */
-	public function Connect($db_conn)
+	public function Connect($db_conn, $select_db = true)
 	{
 		$db_found = false;
 		
@@ -111,11 +111,14 @@ class TSP_Database
     					if (self::$connection)
     					{
     						$connected = true;
-    						
-    						if (self::$connection->selectDB($this->name))
-    						{
-    							$db_found = true;
-    						}
+
+                            if ($select_db)
+                            {
+                                if (mysqli_select_db(self::$connection, $this->name))
+                                    $db_found = true;
+                            }
+                            else
+                                $db_found = true;
     					}
     					break;
         			case TSP_Settings::$database_mssql:
@@ -529,5 +532,37 @@ class TSP_Database
             throw new Exception("Error Occurred in " . __FUNCTION__ . ": " . $e->getMessage() . PHP_EOL);
         }
 	}
+
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     * @return number
+     */
+    public function MultiQuery($query)
+    {
+        $result = null;
+
+        try
+        {
+            switch ($this->type)
+            {
+                case TSP_Settings::$database_mysql:
+                case TSP_Settings::$database_mysqli:
+                    $result = mysqli_multi_query(self::$connection, $query);
+                    break;
+                case TSP_Settings::$database_mssql:
+                    $result = mssql_query($query, self::$connection);
+                    break;
+                default:
+                    break;
+            }
+
+            return $result;
+        }
+        catch (Exception $e)
+        {
+            throw new Exception("Error Occurred in " . __FUNCTION__ . ": " . $e->getMessage() . PHP_EOL);
+        }
+    }
 }
 ?>
