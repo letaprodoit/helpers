@@ -4,7 +4,7 @@
     "description": "Global functions used by various services",
     "keywords": ["slack","password","ontraport","phpmailer","api","database","mysql","mssql","mongo","log","mail","curl","colorize","arrays","Sharron Denice","The Software People"],
     "homepage": "https://github.com/thesoftwarepeople",
-    "license": "APACHE",
+    "license": "Apache License 2.0",
     "authors": [
         {
             "name": "Sharron Denice",
