@@ -4,7 +4,7 @@
  *
  * @package		TheSoftwarePeople.Helpers
  * @filename	Helper.php
- * @version		1.1.1
+ * @version		1.1.2
  * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
  * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -570,38 +570,44 @@ class TSP_Helper
 		}
 	}
 
-	/**
-	 * Function to set a cookie
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $key  - The cookie name
-	 * @param string $value  - The cookie value
-	 * @param string $prefix  - The cookie prefix
-	 * @param boolean $secure (OPTIONAL) - Will the cookie be set securely
-	 *
-	 * @return array - The converted object
-	 */
-    public static function cookieSet($key, $value, $prefix = "", $secure = true)
+    /**
+     * Function to set a cookie
+     *
+     * @since 1.0.0
+     *
+     * @param string $key  - The cookie name
+     * @param string $value  - The cookie value
+     * @param string $prefix  - The cookie prefix
+     * @param boolean $secure (OPTIONAL) - Will the cookie be set securely
+     * @param int $expires (OPTIONAL) - When will the cookie expire
+     * @param string $domain (OPTIONAL) - On which domain will the cookie be stored
+     *
+     * @return null
+     */
+    public static function cookieSet($key, $value, $prefix = "", $secure = true, $expires = 0, $domain = "")
     {
-		$key = $prefix.$key;
-		
-		if(is_array($value))
-		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Set cookie [$key] = " . @json_encode($value));
-	            
-			$value = TSP_Settings::$cookie_prefix_encoded . @json_encode($value);
-		}
-		else
-		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Set cookie [$key] = " . @json_encode($value));
-		}
-		
-		$response = setcookie($key, $value, 0, '/', false, $secure, false);
-		$_COOKIE[$key] = $value;
-	}
+        $key = $prefix.$key;
+
+        if(is_array($value))
+        {
+            if (TSP_Config::get('app.debug'))
+                TSP_Log::info("Set Encrypted cookie [$key] = " . @json_encode($value));
+
+            $value = TSP_Settings::$cookie_prefix_encoded . @json_encode($value);
+        }
+        else
+        {
+            if (TSP_Config::get('app.debug'))
+                TSP_Log::info("Set cookie [$key] = " . $value);
+        }
+
+        $response = setcookie($key, $value, $expires, '/', $domain, $secure, false);
+
+        if (TSP_Config::get('app.debug'))
+            TSP_Log::info("Setting Cookie Response: " . $response);
+
+        $_COOKIE[$key] = $value;
+    }
 
 	/**
 	 * Function to get a cookie
@@ -776,11 +782,13 @@ class TSP_Helper
      *
      * @param int $length - The size of the salt
      * @param bool $special_chars - Include special chars (true or false)
+     * @param bool $numbers - Include numbers (true or false)
+     * @param bool $letters - Include letters (true or false)
      *
      * @return string $salt - encrypted Data
      *
      */
-    public static function genKey($length = 4, $special_chars = true)
+    public static function genKey($length = 4, $special_chars = true, $numbers = true, $letters = true)
     {
         $salt = "";
 
@@ -789,7 +797,14 @@ class TSP_Helper
             for($i = 1; $i <= $length; $i++) 
             {
                 mt_srand((double)microtime() * 1000000);
-                $num = mt_rand(1,72);
+
+                if ($numbers && $letters)
+                    $num = mt_rand(1,72);
+                else if ($numbers && !$letters)
+                    $num = mt_rand(27,36);
+                else if (!$numbers && !$letters)
+                    $num = mt_rand(37,42);
+
                 $salt .= self::assignRandValue($num, $special_chars);
             }
         }
@@ -1359,6 +1374,24 @@ class TSP_Helper
 				return false;
 		}
 	}
+
+
+    /**
+     * Function to determine if the data is empty
+     *
+     * @param string $var - The variable to test
+     *
+     * @since 1.1.2
+     *
+     * @return boolean - Returns the boolean equivalent
+     */
+    public static function isEmpty($var)
+    {
+        if (empty($var) || (is_string($var) && strtolower($var) == 'null'))
+            return true;
+
+        return false;
+    }
 
     /**
      * Remove special characters from a string - Taken from CMS 1.0 code
