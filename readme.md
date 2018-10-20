@@ -9,6 +9,3 @@ Generic Helper Library for Let A Pro Do IT!
 [![Daily Downloads](https://poser.pugx.org/letaprodoit/helpers/d/daily)](https://packagist.org/packages/letaprodoit/helpers)
 
 Some useful functions & helper classes
-
-Initializing Settings
-=======
