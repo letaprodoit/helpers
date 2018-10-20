@@ -17,6 +17,9 @@
         "php": ">=5.3.0",
         "phpmailer/phpmailer": ">=6.0.5"
     },
+    "replace": {
+      "thesoftwarepeople/helpers": "Package abandoned due to rebranding."
+    },
     "autoload": {
         "psr-0": {
             "LAPDI": "src/"
