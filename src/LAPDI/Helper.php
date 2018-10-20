@@ -2,16 +2,16 @@
 /**
  * Helper Classes
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	Helper.php
- * @version		1.1.2
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Global functions used by various services
  *
  */	
-class TSP_Helper 
+class LAPDI_Helper
 {	
 	/**
 	 * Function to return safe value from an array
@@ -489,16 +489,18 @@ class TSP_Helper
 
         return $rand_value;
     }
-	
-	/**
-	 * Function to read user input from command line
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $text - The information inputted by the user
-	 * @param string $color - A name of a color
-	 * @param boolean $return - Return the response or echo the response
-	 */
+
+    /**
+     * Function to read user input from command line
+     *
+     * @since 1.0.0
+     *
+     * @param string $text - The information inputted by the user
+     * @param string $color - A name of a color
+     * @param boolean $return - Return the response or echo the response
+     *
+     * @return string
+     */
 	public static function colorize($text, $color = "NORMAL", $return = true)
 	{
 		$_colors = array(
@@ -544,8 +546,9 @@ class TSP_Helper
 	 *
 	 * @param string $find  - The cookie name to find
 	 * @param boolean $delete_session  - Whether or not to delete the entire session
+     * @param boolean $secure  - Whether or not the cookie is secure
 	 *
-	 * @return none
+	 * @return void
 	 */
 	public static function cookieDelete($find, $delete_session = false, $secure = true)
 	{
@@ -553,8 +556,8 @@ class TSP_Helper
 		{
 			if (preg_match("/{$find}/", $key))
 			{
-				if (TSP_Config::get('app.debug'))
-					TSP_Log::info("Deleting cookie [$key]");
+				if (LAPDI_Config::get('app.debug'))
+					LAPDI_Log::info("Deleting cookie [$key]");
 					
 				$_COOKIE[$key] = "";
 				unset($_COOKIE[$key]);
@@ -590,21 +593,21 @@ class TSP_Helper
 
         if(is_array($value))
         {
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Set Encrypted cookie [$key] = " . @json_encode($value));
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Set Encrypted cookie [$key] = " . @json_encode($value));
 
-            $value = TSP_Settings::$cookie_prefix_encoded . @json_encode($value);
+            $value = LAPDI_Settings::$cookie_prefix_encoded . @json_encode($value);
         }
         else
         {
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Set cookie [$key] = " . $value);
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Set cookie [$key] = " . $value);
         }
 
         $response = setcookie($key, $value, $expires, '/', $domain, $secure, false);
 
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Setting Cookie Response: " . $response);
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Setting Cookie Response: " . $response);
 
         $_COOKIE[$key] = $value;
     }
@@ -628,23 +631,23 @@ class TSP_Helper
 		{
 			$value = $_COOKIE[$key];
 			
-			if (preg_match("/".TSP_Settings::$cookie_prefix_encoded."/", $value))
+			if (preg_match("/".LAPDI_Settings::$cookie_prefix_encoded."/", $value))
 			{
-				$value = preg_replace("/".TSP_Settings::$cookie_prefix_encoded."/", "", $value);
+				$value = preg_replace("/".LAPDI_Settings::$cookie_prefix_encoded."/", "", $value);
 
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get encoded cookie [$key] = $value");
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get encoded cookie [$key] = $value");
 
 				$value = stripslashes($value);
 				$value = json_decode($value, true);
 
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get decoded cookie [$key] = " . @json_encode($value));
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get decoded cookie [$key] = " . @json_encode($value));
 			}
 			else
 			{
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get cookie [$key] = $value");				
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get cookie [$key] = $value");
 			}
 		}			
 
@@ -656,7 +659,7 @@ class TSP_Helper
 	 * Function to decrypt data
 	 *
 	 * @since 1.0.0
-     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher.
+     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher. Use openDecrypt instead.
 	 *
 	 * @param string $salt  - The decryption salt
 	 * @param string $encrypted  - The data to decrypt
@@ -685,7 +688,7 @@ class TSP_Helper
 	 * Function to encrypt data
 	 *
 	 * @since 1.0.0
-     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher.
+     * @deprecated 1.1.1 No longer used by internal code and not used for PHP versions 7.0 and higher. Use openEncrypt instead.
 	 *
 	 * @param string $salt  - The encryption salt
 	 * @param string $data  - The data to encrypt
@@ -752,7 +755,7 @@ class TSP_Helper
 		}//endfor
 		
 		return $arr;		
-	}//endfunction
+	}// end function
 
 	/**
 	 * Function to convert a date string to another date format
@@ -812,13 +815,13 @@ class TSP_Helper
     }
 
 	/**
-	 * Function to convert an object into an array
+	 * Function to display AgentCubed error string
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $object  - The object
+	 * @param object $acResponse  - The agent cubed response
 	 *
-	 * @return array - The converted object
+	 * @return string - The error string
 	 */
     public static function getAcErrorString($acResponse)
     {
@@ -860,7 +863,7 @@ class TSP_Helper
 	 *
 	 * @param string $url  - The URL to call
 	 * @param string $host Optional - The host that will server the results
-	 * @param string $params Optional - The arguments passed to the URL
+	 * @param array $params Optional - The arguments passed to the URL
 	 * @param bool $post Optional - Is this a post request
 	 * @param array $headers Optional - headers array
 	 * @param bool $debug Optional - Debug messages
@@ -913,7 +916,7 @@ class TSP_Helper
 		curl_close ($ch);
 	
 		return $results;
-	}//endfunction
+	}// end function
 
 	/**
 	 * Function to get the current domain being accessed
@@ -935,7 +938,7 @@ class TSP_Helper
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param none
+	 * @param void
 	 *
 	 * @return array - The cookies
 	 */
@@ -1021,7 +1024,7 @@ class TSP_Helper
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $code - The code to check
+	 * @param string $file_name - File name
 	 *
 	 * @return boolean $valid - The status of the code check
 	 */
@@ -1090,7 +1093,7 @@ class TSP_Helper
 	 * @param string $icon_key  - The type of message (see configuraiton file on the slack service)
 	 * @param string $channel  - The slack channel to post to
 	 *
-	 * @return none
+	 * @return void
 	 */
     public static function notifySlack($username, $text, $icon_key, $channel = '#server-activity')
     {
@@ -1135,7 +1138,7 @@ class TSP_Helper
 	 *
 	 * @param string $url (Reference) - The URL to be parsed
 	 *
-	 * @return none
+	 * @return void
 	 */
     public static function parseUrl($url)
     {
@@ -1177,7 +1180,7 @@ class TSP_Helper
 	 * @param array $array  - The array to print
 	 * @param bool $exit  - if the program should exit after printing
 	 *
-	 * @return none
+	 * @return void
 	 */
 	public static function print_pr( $array, $exit = false )
 	{
@@ -1192,7 +1195,7 @@ class TSP_Helper
 	/**
 	 * Function to generate a random passowrd
 	 *
-	 * @param none
+	 * @param void
 	 *
 	 * @since 1.0.0
 	 *
@@ -1227,7 +1230,7 @@ class TSP_Helper
 	    fclose ($fr);                   // close the file handle
 	    
 		return $input;                  // return the text entered
-	}//endfunc
+	}// end func
 	
 	/**
 	 * Function to delete session given a key
@@ -1236,7 +1239,7 @@ class TSP_Helper
 	 *
 	 * @param string $find  - The cookie name to find
 	 *
-	 * @return none
+	 * @return void
 	 */
 	public static function sessionDelete($find)
 	{
@@ -1244,8 +1247,8 @@ class TSP_Helper
 		{
 			if (preg_match("/{$find}/", $key))
 			{
-				if (TSP_Config::get('app.debug'))
-					TSP_Log::info("Deleting session var [$key]");
+				if (LAPDI_Config::get('app.debug'))
+					LAPDI_Log::info("Deleting session var [$key]");
 					
 				unset($_SESSION[$key]);
     		}
@@ -1261,7 +1264,7 @@ class TSP_Helper
 	 * @param string $value  - The session var value
 	 * @param string $prefix  - The session var prefix
 	 *
-	 * @return array - The converted object
+	 * @return void
 	 */
     public static function sessionSet($key, $value, $prefix = "")
     {
@@ -1269,21 +1272,21 @@ class TSP_Helper
 		
 		if(is_array($value))
 		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Set session var [$key] = " . @json_encode($value));
+	        if (LAPDI_Config::get('app.debug'))
+	            LAPDI_Log::info("Set session var [$key] = " . @json_encode($value));
 	            
-			$value = TSP_Settings::$cookie_prefix_encoded . @json_encode($value);
+			$value = LAPDI_Settings::$cookie_prefix_encoded . @json_encode($value);
 		}
 		else
 		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Set session var [$key] = " . @json_encode($value));
+	        if (LAPDI_Config::get('app.debug'))
+	            LAPDI_Log::info("Set session var [$key] = " . @json_encode($value));
 		}
 		
 		$_SESSION[$key] = $value;
 	
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Set session var [$key] = $value");
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Set session var [$key] = $value");
 	}
 
 	/**
@@ -1305,23 +1308,23 @@ class TSP_Helper
 		{
 			$value = $_SESSION[$key];
 			
-			if (preg_match("/".TSP_Settings::$cookie_prefix_encoded."/", $value))
+			if (preg_match("/".LAPDI_Settings::$cookie_prefix_encoded."/", $value))
 			{
-				$value = preg_replace("/".TSP_Settings::$cookie_prefix_encoded."/", "", $value);
+				$value = preg_replace("/".LAPDI_Settings::$cookie_prefix_encoded."/", "", $value);
 
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get encoded session var [$key] = $value");
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get encoded session var [$key] = $value");
 
 				$value = stripslashes($value);
 				$value = json_decode($value, true);
 
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get decoded session var [$key] = " . @json_encode($value));
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get decoded session var [$key] = " . @json_encode($value));
 			}
 			else
 			{
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Get session var [$key] = $value");				
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Get session var [$key] = $value");
 			}
 		}			
 
@@ -1438,3 +1441,20 @@ class TSP_Helper
     	return $str;
     }
 }
+
+
+
+/**
+ * TSP_Helper
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_Helper instead
+ *
+ * @return void
+ *
+ */
+class TSP_Helper extends LAPDI_Helper
+{
+
+}// end class

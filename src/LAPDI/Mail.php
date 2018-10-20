@@ -1,17 +1,17 @@
 <?php
 /**
- * Helper Classes
+ * Mail Class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	Mail.php
- * @version		1.0.3
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Global functions used by various services
  *
  */	
-class TSP_Mail
+class LAPDI_Mail
 {
     private $mail;
     private $from_email;
@@ -26,7 +26,7 @@ class TSP_Mail
      * @param string $name - From name
      * @param bool $smtp_on - SMTP on/off
      *
-     * @return none
+     * @return void
      *
      */
     function __construct($from, $name, $smtp_on) 
@@ -47,9 +47,9 @@ class TSP_Mail
      *
      * @since 1.0.1
      *
-     * @param none
+     * @param void
      *
-     * @return none
+     * @return void
      *
      */
     private function configSMTP()
@@ -59,15 +59,15 @@ class TSP_Mail
             // Additional settings…
             $this->mail->isSMTP();
     
-        	//if (TSP_Config::get('app.debug'))
+        	//if (LAPDI_Config::get('app.debug'))
         	//    $this->mail->SMTPDebug  = 2;
     
-            $this->mail->Host = TSP_Settings::$smtp_host;
+            $this->mail->Host = LAPDI_Settings::$smtp_host;
             $this->mail->SMTPAuth = true; // Force it to use Username and Password to authenticate
-            $this->mail->Port = TSP_Settings::$smtp_port;
-            $this->mail->Username = TSP_Settings::$smtp_user;
-            $this->mail->Password = TSP_Settings::$smtp_pass;        
-            $this->mail->SMTPSecure = TSP_Settings::$smtp_secure;
+            $this->mail->Port = LAPDI_Settings::$smtp_port;
+            $this->mail->Username = LAPDI_Settings::$smtp_user;
+            $this->mail->Password = LAPDI_Settings::$smtp_pass;
+            $this->mail->SMTPSecure = LAPDI_Settings::$smtp_secure;
         }
     }
 
@@ -76,9 +76,9 @@ class TSP_Mail
      *
      * @since 1.0.1
      *
-     * @param none
+     * @param void
      *
-     * @return none
+     * @return void
      *
      */
     private function configContact()
@@ -101,24 +101,24 @@ class TSP_Mail
      * @param string $body - the email body
      * @param optional string $attachment - the email attachment
      *
-     * @return none
+     * @return void
      *
      */
     public function send($to, $subject, $body, $attachment = null)
     {
         try
         {
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Preparing mail...");
+	        if (LAPDI_Config::get('app.debug'))
+	            LAPDI_Log::info("Preparing mail...");
 
 	        $this->mail->setFrom($this->mail->From, $this->mail->FromName);
 	        
-	        if (TSP_Settings::$admin_notify)
+	        if (LAPDI_Settings::$admin_notify)
 	        {
-                if (TSP_Config::get('app.debug'))
-                    TSP_Log::info("Adding admin to BCC...");
+                if (LAPDI_Config::get('app.debug'))
+                    LAPDI_Log::info("Adding admin to BCC...");
 
-	        	$this->mail->AddBCC(TSP_Settings::$admin_email, TSP_Settings::$admin_email);
+	        	$this->mail->AddBCC(LAPDI_Settings::$admin_email, LAPDI_Settings::$admin_email);
 	        }
 	        
 	        $plain_text = strip_tags($body, "<br>");
@@ -135,21 +135,21 @@ class TSP_Mail
 	            $this->mail->AddAttachment( $attachment , basename($attachment) );
 	        }
 
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Sending mail...");
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Sending mail...");
 
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Sending mail content {$plain_text}...");
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Sending mail content {$plain_text}...");
 
 	        if(!$this->mail->Send())
 	        {
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("DID NOT send email, Response: {$this->mail->ErrorInfo}.");
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("DID NOT send email, Response: {$this->mail->ErrorInfo}.");
 			}
 			else
 			{
-		        if (TSP_Config::get('app.debug'))
-		            TSP_Log::info("Message sent!");
+		        if (LAPDI_Config::get('app.debug'))
+		            LAPDI_Log::info("Message sent!");
 			}   
 
 			$this->mail->ClearAddresses();
@@ -157,13 +157,28 @@ class TSP_Mail
         }
 		catch (phpmailerException $e) 
 		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("PHPMailer: DID NOT send email, Response: {$e->errorMessage()}.");
+	        if (LAPDI_Config::get('app.debug'))
+	            LAPDI_Log::info("PHPMailer: DID NOT send email, Response: {$e->errorMessage()}.");
 		} 
 		catch (Exception $e) 
 		{
-	        if (TSP_Config::get('app.debug'))
-	            TSP_Log::info("Exception: DID NOT send email, Response: {$e->errorMessage()}.");
+	        if (LAPDI_Config::get('app.debug'))
+	            LAPDI_Log::info("Exception: DID NOT send email, Response: {$e->errorMessage()}.");
 		}
  	}
 }
+
+/**
+ * TSP_Mail
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_Mail instead
+ *
+ * @return void
+ *
+ */
+class TSP_Mail extends LAPDI_Mail
+{
+
+}// end class

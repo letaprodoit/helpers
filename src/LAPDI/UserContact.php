@@ -2,15 +2,15 @@
 /**
  * The UserContact class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	UserContact.php
- * @version		1.0.0
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Class to store user contact objects
  */
-class TSP_UserContact
+class LAPDI_UserContact
 {
 	/**
 	 * The user's first name
@@ -51,9 +51,10 @@ class TSP_UserContact
 	 * @param string $fname - The user first name
 	 * @param string $lname - The user last name
 	 * @param string $email - The user email
-	 * @param string $phone - The user phone
+	 * @param string $phone - Optional The user phone
+     * @param string $company - Optional The user phone
 	 *
-	 * @return none
+	 * @return void
 	 *
 	 */
 	function __construct($fname, $lname, $email, $phone = '', $company = '')
@@ -63,6 +64,20 @@ class TSP_UserContact
 		$this->email = $email;	
 		$this->phone = $phone;	
 		$this->company = $company;	
-	}//endfunc
-}//endclass
-?>
+	}// end func
+}// end class
+
+/**
+ * TSP_UserContact
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_UserContact instead
+ *
+ * @return void
+ *
+ */
+class TSP_UserContact extends LAPDI_UserContact
+{
+
+}// end class

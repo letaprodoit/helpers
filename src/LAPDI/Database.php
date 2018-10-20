@@ -2,16 +2,16 @@
 /**
  * The Database class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	Database.php
- * @version		1.0.1
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Class to store Connection objects
  *
  */
-class TSP_Database
+class LAPDI_Database
 {
 	public static $connection;
 
@@ -51,17 +51,18 @@ class TSP_Database
 	 * @var string
 	 */
 	public $type;
-	
-	/**
-	 * Constructor
-	 */
+
+    /**
+     * Constructor
+     * @throws Exception
+     */
 	public function __construct($db_key, $select_db = true)
 	{		
         try 
         {
-    		if (array_key_exists($db_key, TSP_Config::get('app.databases')))
+    		if (array_key_exists($db_key, LAPDI_Config::get('app.databases')))
     		{
-    			$db_conn = TSP_Config::get('app.databases.' . $db_key);
+    			$db_conn = LAPDI_Config::get('app.databases.' . $db_key);
     			$this->Connect($db_conn, $select_db);
     		}
         }
@@ -71,9 +72,12 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @return resource
-	 */
+    /**
+     *
+     * @throws Exception
+     *
+     * @return resource
+     */
 	public function Connect($db_conn, $select_db = true)
 	{
 		$db_found = false;
@@ -91,8 +95,8 @@ class TSP_Database
 
     			switch ($this->type)
     			{
-    				case TSP_Settings::$database_mysql:
-    				case TSP_Settings::$database_mysqli:
+    				case LAPDI_Settings::$database_mysql:
+    				case LAPDI_Settings::$database_mysqli:
                         self::$connection = mysqli_connect($this->host, $this->user, $this->pass, "", $this->port);
     					
     					if (self::$connection)
@@ -105,7 +109,7 @@ class TSP_Database
     						}
     					}
     					break;
-    				case TSP_Settings::$database_mongo:
+    				case LAPDI_Settings::$database_mongo:
     					self::$connection = new MongoClient("mongodb://{$this->user}:{$this->pass}@{$this->host}:{$this->port}");
     					
     					if (self::$connection)
@@ -121,7 +125,7 @@ class TSP_Database
                                 $db_found = true;
     					}
     					break;
-        			case TSP_Settings::$database_mssql:
+        			case LAPDI_Settings::$database_mssql:
     					self::$connection = mssql_connect($this->host, $this->user, $this->pass);
     					
     					if (self::$connection)
@@ -141,11 +145,11 @@ class TSP_Database
     		
             if (!$connected)
     		{
-    			throw new Exception("Error Occurred: Could not connect to the database. Please edit TSP_Settings with your database configuration.");
+    			throw new Exception("Error Occurred: Could not connect to the database. Please edit LAPDI_Settings with your database configuration.");
     		}
     		else if (!$db_found)
     		{
-    			throw new Exception("Error Occurred: Could not find the specified database ".$this->name.". Please edit TSP_Settings.");
+    			throw new Exception("Error Occurred: Could not find the specified database ".$this->name.". Please edit LAPDI_Settings.");
     		}
     	}
         catch (Exception $e) 
@@ -154,10 +158,13 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $result
-	 * @return boolean|number
-	 */
+    /**
+     * @param unknown $result
+     *
+     * @throws Exception
+     *
+     * @return boolean|number
+     */
 	public function FetchArray($result)
 	{
 		$row = null;
@@ -166,11 +173,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-     			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+     			case LAPDI_Settings::$database_mysqli:
     				$row = mysqli_fetch_array($result);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$row = mssql_fetch_array($result);
     				break;
     			default:
@@ -190,10 +197,13 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $result
-	 * @return boolean|number
-	 */
+    /**
+     * @param unknown $result
+     *
+     * @throws Exception
+     *
+     * @return boolean|number
+     */
 	public function FetchHash($result)
 	{
 		$row = null;
@@ -202,11 +212,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$row = mysqli_fetch_assoc($result);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$row = mssql_fetch_assoc($result);
     				break;
     			default:
@@ -225,10 +235,13 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $result
-	 * @return boolean|number
-	 */
+    /**
+     * @param unknown $result
+     *
+     * @throws Exception
+     *
+     * @return boolean|number
+     */
 	public function FetchObject($result)
 	{
 		$row = null;
@@ -237,11 +250,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-     			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+     			case LAPDI_Settings::$database_mysqli:
     				$row = mysqli_fetch_object($result);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$row = mssql_fetch_object($result);
     				break;
     			default:
@@ -260,11 +273,14 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $query
-	 * @param unknown $connection
-	 * @return number
-	 */
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     *
+     * @throws Exception
+     *
+     * @return number
+     */
 	public function InsertOrUpdate($query)
 	{
 		$id = null;
@@ -273,12 +289,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				$id = $this->LastInsertID();
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				$id = $this->LastInsertID();
     				break;
@@ -295,10 +311,13 @@ class TSP_Database
 	}
 
 
-	/**
-	 * @param string $query
-	 * @return string
-	 */
+    /**
+     * @param string $query
+     *
+     * @throws Exception
+     *
+     * @return string
+     */
     public function PrepareStatement($query)
     {
 		$sql = $query;
@@ -307,10 +326,10 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-     			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+     			case LAPDI_Settings::$database_mysqli:
                     break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$sql = preg_replace("/\`(.*?)\`/", "[$1]", $sql);
     				break;
     			default:
@@ -325,11 +344,14 @@ class TSP_Database
         }
     }
 
-	/**
-	 * @param unknown $query
-	 * @param unknown $connection
-	 * @return number
-	 */
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     *
+     * @throws Exception
+     *
+     * @return number
+     */
 	public function LastInsertID()
 	{
 		$id = null;
@@ -339,13 +361,13 @@ class TSP_Database
     		// do NOT use mysql_insert_id here it does not handle BIGINT
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, 'SELECT LAST_INSERT_ID();');
     				$row = mysqli_fetch_array($result);
     				$id = $row[0];
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$result = mssql_query('select @@IDENTITY;', self::$connection);
     				$row = mssql_fetch_array($result);
     				$id = $row[0];
@@ -362,10 +384,13 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $cursor
-	 * @return multitype:
-	 */
+    /**
+     * @param unknown $cursor
+     *
+     * @throws Exception
+     *
+     * @return multitype
+     */
 	public function Read($cursor)
 	{
 		$read = null;
@@ -374,11 +399,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$read = mysqli_fetch_assoc($cursor);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$read = mssql_fetch_assoc($cursor);
     				break;
     			default:
@@ -392,12 +417,15 @@ class TSP_Database
             throw new Exception("Error Occurred in " . __FUNCTION__ . ": " . $e->getMessage() . PHP_EOL);
         }
 	}
-	
-	/**
-	 * @param unknown $query
-	 * @param unknown $connection
-	 * @return resource
-	 */
+
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     *
+     * @throws Exception
+     *
+     * @return resource
+     */
 	public function Reader($query)
 	{
 		$cursor = null;
@@ -406,11 +434,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-     			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+     			case LAPDI_Settings::$database_mysqli:
     				$cursor = mysqli_query(self::$connection, $query);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$cursor = mssql_query($query, self::$connection);
     				break;
     			default:
@@ -425,10 +453,13 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $query
-	 * @return boolean|number
-	 */
+    /**
+     * @param unknown $query
+     *
+     * @throws Exception
+     *
+     * @return boolean|number
+     */
 	public function RunQuery($query)
 	{
 		$result = null;
@@ -437,11 +468,11 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				break;
     			default:
@@ -460,11 +491,14 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $query
-	 * @param unknown $connection
-	 * @return boolean|number
-	 */
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     *
+     * @throws Exception
+     *
+     * @return boolean|number
+     */
 	public function NonQuery($query)
 	{
 		$result = null;
@@ -473,12 +507,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				mysqli_query(self::$connection, $query);
     				$result = mysqli_affected_rows(self::$connection);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				mssql_query($query, self::$connection);
     				$result = mssql_rows_affected(self::$connection);
     				break;
@@ -499,11 +533,14 @@ class TSP_Database
         }
 	}
 
-	/**
-	 * @param unknown $query
-	 * @param unknown $connection
-	 * @return number
-	 */
+    /**
+     * @param unknown $query
+     * @param unknown $connection
+     *
+     * @throws Exception
+     *
+     * @return number
+     */
 	public function Query($query)
 	{
 		$rows = null;
@@ -512,12 +549,12 @@ class TSP_Database
     	{
     		switch ($this->type)
     		{
-    			case TSP_Settings::$database_mysql:
-    			case TSP_Settings::$database_mysqli:
+    			case LAPDI_Settings::$database_mysql:
+    			case LAPDI_Settings::$database_mysqli:
     				$result = mysqli_query(self::$connection, $query);
     				$rows = mysqli_num_rows($result);
     				break;
-    			case TSP_Settings::$database_mssql:
+    			case LAPDI_Settings::$database_mssql:
     				$result = mssql_query($query, self::$connection);
     				$rows = mssql_num_rows($result);
     				break;
@@ -536,6 +573,9 @@ class TSP_Database
     /**
      * @param unknown $query
      * @param unknown $connection
+     *
+     * @throws Exception
+     *
      * @return number
      */
     public function MultiQuery($query)
@@ -546,11 +586,11 @@ class TSP_Database
         {
             switch ($this->type)
             {
-                case TSP_Settings::$database_mysql:
-                case TSP_Settings::$database_mysqli:
+                case LAPDI_Settings::$database_mysql:
+                case LAPDI_Settings::$database_mysqli:
                     $result = mysqli_multi_query(self::$connection, $query);
                     break;
-                case TSP_Settings::$database_mssql:
+                case LAPDI_Settings::$database_mssql:
                     $result = mssql_query($query, self::$connection);
                     break;
                 default:
@@ -565,4 +605,19 @@ class TSP_Database
         }
     }
 }
-?>
+
+
+/**
+ * TSP_Database
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_Database instead
+ *
+ * @return void
+ *
+ */
+class TSP_Database extends LAPDI_Database
+{
+
+}// end class

@@ -1,17 +1,17 @@
 <?php
 /**
- * Helper Classes
+ * The Config class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	Config.php
- * @version		1.0.0
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Global functions used by various services
  *
  */	
-class TSP_Config
+class LAPDI_Config
 {
     /**
      * Constructor
@@ -20,7 +20,7 @@ class TSP_Config
      *
      * @param object conn - The database connection
      *
-     * @return none
+     * @return void
      *
      */
     function __construct($conn = null) 
@@ -52,15 +52,30 @@ class TSP_Config
             list($null, $null, $config_arrkey) = preg_split("/\./", $find, $levels);
         }
 
-        if (!is_array(TSP_Settings::${$config_key}) || (is_array(TSP_Settings::${$config_key}) && empty($config_arrkey)))
+        if (!is_array(LAPDI_Settings::${$config_key}) || (is_array(LAPDI_Settings::${$config_key}) && empty($config_arrkey)))
         {
-            return TSP_Settings::${$config_key};
+            return LAPDI_Settings::${$config_key};
         }
-        else if (is_array(TSP_Settings::${$config_key}) && !empty($config_arrkey))
+        else if (is_array(LAPDI_Settings::${$config_key}) && !empty($config_arrkey))
         {
-            return TSP_Settings::${$config_key}[$config_arrkey];
+            return LAPDI_Settings::${$config_key}[$config_arrkey];
         }    
         
         return "";
     }
 }
+
+/**
+ * TSP_Config
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_Config instead
+ *
+ * @return void
+ *
+ */
+class TSP_Config extends LAPDI_Config
+{
+
+}// end class

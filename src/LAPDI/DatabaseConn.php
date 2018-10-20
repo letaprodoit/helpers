@@ -1,17 +1,17 @@
 <?php
 /**
- * The Database class
+ * The Database Connection class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	DatabaseConn.php
- * @version		1.0.0
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Class to store Connection objects
  *
  */
-class TSP_DatabaseConn
+class LAPDI_DatabaseConn
 {
 	/**
 	 * The DB's name
@@ -62,7 +62,7 @@ class TSP_DatabaseConn
 	 * @param integer $port - Optional - The DB's port
 	 * @param string $type - Optional - The DB's type
 	 *
-	 * @return none
+	 * @return void
 	 *
 	 */
 	function __construct($name, $user, $pass, $host = "localhost", $port = 3306, $type = "mysqli")
@@ -73,6 +73,21 @@ class TSP_DatabaseConn
 		$this->host = $host;
 		$this->port = $port;
 		$this->type = $type;
-	}//endfunc
-}//endclass
-?>
+	}// end func
+}// end class
+
+
+/**
+ * TSP_DatabaseConn
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_DatabaseConn instead
+ *
+ * @return void
+ *
+ */
+class TSP_DatabaseConn extends LAPDI_DatabaseConn
+{
+
+}// end class

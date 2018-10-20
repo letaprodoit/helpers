@@ -1,29 +1,29 @@
 <?php
 /**
- * Helper Classes
+ * Settings Class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	Settings.php
- * @version		1.0.3
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
- * @brief		Settings used by the TheSoftwarePeople\Helper package
+ * @brief		Settings used by the LetAProDoIT\Helper package
  *
  */	
-class TSP_Settings
+class LAPDI_Settings
 {
 	public static $live            	= false;
 	public static $live_payment 	= false;
 	public static $debug           	= true;
 
 	public static $admin_email 			= "webmaster@thesoftwarepeople.com";		
-	public static $admin_name 			= "The Software People";			
+	public static $admin_name 			= "Let A Pro Do IT!";
 	public static $admin_from_email 	= "no-reply@thesoftwarepeople.com";		
-	public static $admin_from_name 		= "The Software People";		
+	public static $admin_from_name 		= "Let A Pro Do IT!";
 	public static $admin_notify 		= true;
 
-    public static $cookie_prefix 		 = "tsp-";
+    public static $cookie_prefix 		 = "lapdi-";
 	public static $cookie_prefix_encoded = "Encoded: ";
 
 	public static $date_format_default     = "m/d/Y";
@@ -59,8 +59,23 @@ class TSP_Settings
 	public static $misc   		= null; 
 
 	/*  Array of Objects */
-    public static $databases   	= null; // TSP_Database
-    public static $users       	= null; // TSP_UserLogin
-    public static $apis        	= null; // TSP_APICredentials
-    public static $contacts    	= null; // TSP_UserContact
+    public static $databases   	= null; // LAPDI_Database
+    public static $users       	= null; // LAPDI_UserLogin
+    public static $apis        	= null; // LAPDI_APICredentials
+    public static $contacts    	= null; // LAPDI_UserContact
 }
+
+/**
+ * TSP_Settings
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_Settings instead
+ *
+ * @return void
+ *
+ */
+class TSP_Settings extends LAPDI_Settings
+{
+
+}// end class

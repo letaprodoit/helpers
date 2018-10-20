@@ -2,16 +2,16 @@
 /**
  * OntraportConn
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	OntraportConn.php
- * @version		1.0.6
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Ontraport API functionality
  *
  */	
-class TSP_OntraportConn 
+class LAPDI_OntraportConn
 {
 	public $id = null;
 	public $key = null;
@@ -27,7 +27,7 @@ class TSP_OntraportConn
      *
      * @param object params - the variables to set
      *
-     * @return none
+     * @return void
      *
      */
     function __construct($params = null) 
@@ -49,9 +49,9 @@ class TSP_OntraportConn
      *
      * @since 1.0.0
      *
-     * @param none
+     * @param void
      *
-     * @return none
+     * @return void
      *
      */
     function __destruct() 
@@ -67,7 +67,7 @@ class TSP_OntraportConn
 	 * @param string $lname - The last name
 	 * @param string $email Optional - The email address
 	 * @param string $contact_id Optional - The OAP contact ID
-	 * @param string $count_only Optional - Return the number of results
+	 * @param boolean $count_only Optional - Return the number of results
 	 *
 	 * @return string $response - The curl response (XML)
 	 */
@@ -130,10 +130,10 @@ STRING;
 		if ($count_only)
 			$postargs['count'] = '1';
 
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Sending post args for contact info to OAP: " . @json_encode($postargs));
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Sending post args for contact info to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+        $response = LAPDI_Helper::getCurlResults($this->URL, null, $postargs, true);
     
         return $response;
     }
@@ -377,8 +377,8 @@ STRING;
     </contact>
 STRING;
     
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Tags to add in OAP: " . @json_encode($data));
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Tags to add in OAP: " . @json_encode($data));
     
             $data = urlencode($data);
             
@@ -390,15 +390,15 @@ STRING;
                 'data'      => $data,
             );
     
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
     
-            $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+            $response = LAPDI_Helper::getCurlResults($this->URL, null, $postargs, true);
         }
         else
         {
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("No valid tags found to add to OAP");
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("No valid tags found to add to OAP");
         }
     
         return $response;
@@ -438,17 +438,17 @@ STRING;
             'data'      => $data,
         );
 
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Sending post args to add tags to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+        $response = LAPDI_Helper::getCurlResults($this->URL, null, $postargs, true);
     
         $xml = simplexml_load_string($response);
 
         $contact_id = null;
 
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Results of OAP Post: " . @json_encode($xml));
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Results of OAP Post: " . @json_encode($xml));
 
         if (isset($xml->contact))
             $contact_id = (string)$xml->contact->attributes()->id;
@@ -538,8 +538,8 @@ STRING;
     </contact>
 STRING;
     
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Tags to remove in OAP: " . @json_encode($data));
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Tags to remove in OAP: " . @json_encode($data));
     
             $data = urlencode($data);
             
@@ -551,15 +551,15 @@ STRING;
                 'data'      => $data,
             );
     
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("Sending post args to remove tags in OAP: " . @json_encode($postargs));
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("Sending post args to remove tags in OAP: " . @json_encode($postargs));
     
-            $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+            $response = LAPDI_Helper::getCurlResults($this->URL, null, $postargs, true);
         }
         else
         {
-            if (TSP_Config::get('app.debug'))
-                TSP_Log::info("No valid tags found to remove from OAP");
+            if (LAPDI_Config::get('app.debug'))
+                LAPDI_Log::info("No valid tags found to remove from OAP");
         }
     
         return $response;
@@ -572,6 +572,7 @@ STRING;
 	 *
 	 * @param int $id - the contact ID
 	 * @param array $params - a list of parameters to add
+     * @param string $tag - The default tag for contact
 	 *
 	 * @return string $response - The curl response (XML)
 	 */
@@ -608,13 +609,26 @@ STRING;
             'data'      => $data,
         );
 
-        if (TSP_Config::get('app.debug'))
-            TSP_Log::info("Sending post args to update info to OAP: " . @json_encode($postargs));
+        if (LAPDI_Config::get('app.debug'))
+            LAPDI_Log::info("Sending post args to update info to OAP: " . @json_encode($postargs));
 
-        $response = TSP_Helper::getCurlResults($this->URL, null, $postargs, true);
+        $response = LAPDI_Helper::getCurlResults($this->URL, null, $postargs, true);
     
         return $response;
     }
 }
 
-?>
+/**
+ * TSP_OntraportConn
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_OntraportConn instead
+ *
+ * @return void
+ *
+ */
+class TSP_OntraportConn extends LAPDI_OntraportConn
+{
+
+}// end class

@@ -1,25 +1,25 @@
 {
-    "name": "thesoftwarepeople/helpers",
+    "name": "letaprodoit/helpers",
     "type": "library",
     "description": "Global functions used by various services",
     "keywords": ["slack","password","ontraport","phpmailer","api","database","mysql","mssql","mongo","log","mail","curl","colorize","arrays","Sharron Denice","The Software People"],
-    "homepage": "https://github.com/thesoftwarepeople",
+    "homepage": "https://github.com/letaprodoit",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Sharron Denice",
-            "email": "sharron@thesoftwarepeople.com",
-            "homepage": "http://www.thesoftwarepeople.com",
+            "email": "sharron@letaprodoit.com",
+            "homepage": "https://www.letaprodoit.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": ">=5.3.0",
-        "phpmailer/phpmailer": "v5.2.16"
+        "phpmailer/phpmailer": ">=6.0.5"
     },
     "autoload": {
         "psr-0": {
-            "TSP": "src/"
+            "LAPDI": "src/"
         }
     }
 }

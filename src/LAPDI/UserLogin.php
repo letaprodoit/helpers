@@ -2,15 +2,15 @@
 /**
  * The UserLogin class
  *
- * @package		TheSoftwarePeople.Helpers
+ * @package		LetAProDoIT.Helpers
  * @filename	UserLogin.php
- * @version		1.0.0
- * @author		Sharron Denice, The Software People (www.thesoftwarepeople.com)
- * @copyright	Copyright 2016 The Software People (www.thesoftwarepeople.com). All rights reserved
+ * @version		2.0.0
+ * @author		Sharron Denice, Let A Pro Do IT! (www.letaprodoit.com)
+ * @copyright	Copyright 2016 Let A Pro Do IT! (www.letaprodoit.com). All rights reserved
  * @license		APACHE v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * @brief		Class to store user login objects
  */
-class TSP_UserLogin
+class LAPDI_UserLogin
 {
 	/**
 	 * The user name
@@ -40,7 +40,7 @@ class TSP_UserLogin
 	 * @param string $pass - The user password
 	 * @param string $url - The login URL
 	 *
-	 * @return none
+	 * @return void
 	 *
 	 */
 	function __construct($name, $pass, $url)
@@ -48,6 +48,20 @@ class TSP_UserLogin
 		$this->name = $name;
 		$this->pass = $pass;	
 		$this->URL = $url;
-	}//endfunc
-}//endclass
-?>
+	}// end func
+}// end class
+
+/**
+ * TSP_UserLogin
+ *
+ * @since 1.0.0
+ *
+ * @deprecated 2.0.0 Please use LAPDI_UserLogin instead
+ *
+ * @return void
+ *
+ */
+class TSP_UserLogin extends LAPDI_UserLogin
+{
+
+}// end class
