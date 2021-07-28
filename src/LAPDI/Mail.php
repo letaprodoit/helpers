@@ -11,6 +11,11 @@
  * @brief		Global functions used by various services
  *
  */	
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class LAPDI_Mail
 {
     private $mail;
