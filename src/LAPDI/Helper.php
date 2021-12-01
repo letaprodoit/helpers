@@ -1080,7 +1080,7 @@ class LAPDI_Helper
 	 */
 	public static function lastVal($array)
 	{ 
-	    return $array{count($array) - 1}; 
+		return $array[count($array) - 1]; 
 	}//endpublic static function 
 
 	/**
