@@ -1,4 +1,4 @@
-Generic Helper Library for Let A Pro Do IT!
+Generic PHP Helper Library for Let A Pro Do IT!
 =======
 
 [![Latest Stable Version](https://poser.pugx.org/letaprodoit/helpers/v/stable)](https://packagist.org/packages/letaprodoit/helpers)
